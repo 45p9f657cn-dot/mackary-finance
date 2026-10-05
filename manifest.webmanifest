@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "MACKARY FINANCE",
+  "short_name": "MACKARY",
+  "description": "MACKARY FINANCE personal spending, income, and savings tracker in Zambian Kwacha.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff8f6",
+  "theme_color": "#18324a",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
