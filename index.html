@@ -192,7 +192,7 @@ function renderAccounts(){
  setLabel('#dashboard-view .metric:nth-child(6) .metric-foot',business?'Income less costs and reserves':'Income minus spending and savings');
  setLabel('#dashboard-view .panels > .panel:nth-child(2) h2',business?'Operating budget':'Monthly budget');
  setLabel('#budget-edit',business?'Set operating budget':'Set budget');
- setLabel('#add-view h2',business?'Record a business cost':'Record an expense');const expenseDescription=#description;if(expenseDescription)expenseDescription.placeholder=business?'What spare or item did you buy for the business?':'What was this for?';
+ setLabel('#add-view h2',business?'Record a business cost':'Record an expense');const expenseDescription=$('#description');if(expenseDescription)expenseDescription.placeholder=business?'What spare or item did you buy for the business?':'What was this for?';
  setLabel('#income-view .form-card h2',business?'Record sales or other income':'Record income');
  setLabel('#income-view .form-card > p',business?'Track sales, service income and other money received.':'Track money coming in. Your income and available balance update when you save.');
  setLabel('#savings-view h2',business?'Reserve funds':'Savings accounts & funds');
