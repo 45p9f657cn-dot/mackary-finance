@@ -73,8 +73,8 @@ main{padding-top:22px}
 <script>
 (()=>{'use strict';
 const PREFKEY='mackary.preferences.v1';let preferences={font:'DM Sans',dark:false};const KEY='kwacha.expenses.v1',BKEY='kwacha.monthlyBudget.v1',IKEY='kwacha.incomes.v1',SKEY='kwacha.savingsGoals.v1',AKEY='kwacha.savingsAccounts.v1',OKEY='kwacha.openingBalances.v1',PKEY='kwacha.monthlyPlans.v1',DKEY='kwacha.debts.v1',EKEY='kwacha.expectedIncomes.v1',VKEY='kwacha.investments.v1',RKEY='kwacha.recurring.v1',AUTHKEY='mackary.auth.v1',PROFILEKEY='mackary.profile.v1';
-const categories=['Food','Transport','Rent','Bills','Shopping','Business','Education','Entertainment','Health','Airtime/Data','Savings','Other'];
-const icons={Food:'🍲',Transport:'🚌',Rent:'🏠',Bills:'💡',Shopping:'🛍️',Business:'💼',Education:'📚',Entertainment:'🎟️',Health:'💊','Airtime/Data':'📱',Savings:'🐷',Other:'✳️'};
+const categories=['Food','Transport','Rent','Bills','Shopping','Business','Spares','Education','Entertainment','Health','Airtime/Data','Savings','Other'];
+const icons={Food:'🍲',Transport:'🚌',Rent:'🏠',Bills:'💡',Shopping:'🛍️',Business:'💼',Spares:'🛠️',Education:'📚',Entertainment:'🎟️',Health:'💊','Airtime/Data':'📱',Savings:'🐷',Other:'✳️'};
 const $=s=>document.querySelector(s);
 const fmt=n=>'K'+Number(n||0).toLocaleString('en-ZM',{minimumFractionDigits:2,maximumFractionDigits:2});
 function read(k,f){try{const v=localStorage.getItem(k);return v===null?f:JSON.parse(v)}catch{return f}}
@@ -113,7 +113,7 @@ function channelBalance(channel){const after=Number(openingBalances.asOf||0),inc
  const pct=budget>0?Math.min(100,mo/budget*100):0;$('#budget-progress').style.width=pct+'%';
  $('#budget-caption-left').textContent=Math.round(pct)+'% used';$('#budget-caption-right').textContent=fmt(Math.max(0,budget-mo))+' left';
  $('#budget-progress').style.background=mo>budget?'#d96852':'var(--green)';$('#budget-alert').textContent=budget>0&&mo>=budget?'Monthly budget exceeded by '+fmt(mo-budget):budget>0&&mo>=budget*.8?'You have used '+Math.round(mo/budget*100)+'% of this month’s budget.':'';
- const guide={Food:15,Transport:10,Rent:20,Bills:5,Shopping:8,Business:4,Education:4,Entertainment:5,Health:3,'Airtime/Data':3,Savings:20,Other:3};
+ const guide={Food:15,Transport:10,Rent:20,Bills:5,Shopping:8,Business:4,Spares:3,Education:4,Entertainment:5,Health:3,'Airtime/Data':3,Savings:20,Other:3};
  const savedThisMonth=accounts.reduce((sum,a)=>sum+(a.transactions||[]).filter(t=>inMonth(t)).reduce((n,t)=>n+(t.type==='deposit'?Number(t.amount):-Number(t.amount)),0),0);
  const catSums=categories.map(category=>[category,category==='Savings'?Math.max(0,savedThisMonth):moneySum(expenses.filter(e=>e.category===category&&inMonth(e)))]);
  $('#categories').innerHTML=catSums.map(([c,n])=>{const actual=incomeMonth?n/incomeMonth*100:0,limit=guide[c];return '<div class="category-row"><span class="cat-ico">'+icons[c]+'</span><div><div class="cat-name">'+c+' <span style="font-weight:400;color:var(--muted)">· '+limit+'% guide</span></div><div class="cat-track"><div class="cat-progress" style="width:'+Math.min(100,limit?actual/limit*100:0)+'%;background:'+(actual>limit?'#d96852':'var(--green)')+'"></div></div></div><strong class="cat-total">'+actual.toFixed(0)+'% <span style="font-weight:400;color:var(--muted)">('+fmt(n)+')</span></strong></div>'}).join(''); renderChart(now);
@@ -192,7 +192,7 @@ function renderAccounts(){
  setLabel('#dashboard-view .metric:nth-child(6) .metric-foot',business?'Income less costs and reserves':'Income minus spending and savings');
  setLabel('#dashboard-view .panels > .panel:nth-child(2) h2',business?'Operating budget':'Monthly budget');
  setLabel('#budget-edit',business?'Set operating budget':'Set budget');
- setLabel('#add-view h2',business?'Record a business cost':'Record an expense');
+ setLabel('#add-view h2',business?'Record a business cost':'Record an expense');const expenseDescription=#description;if(expenseDescription)expenseDescription.placeholder=business?'What spare or item did you buy for the business?':'What was this for?';
  setLabel('#income-view .form-card h2',business?'Record sales or other income':'Record income');
  setLabel('#income-view .form-card > p',business?'Track sales, service income and other money received.':'Track money coming in. Your income and available balance update when you save.');
  setLabel('#savings-view h2',business?'Reserve funds':'Savings accounts & funds');
