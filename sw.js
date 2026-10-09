@@ -1,4 +1,4 @@
-const CACHE = 'mackary-finance-pwa-v28';
+const CACHE = 'mackary-finance-pwa-v29';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', event => {
