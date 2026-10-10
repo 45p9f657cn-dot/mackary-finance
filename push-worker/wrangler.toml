@@ -1,0 +1,16 @@
+name = "mackary-finance-push"
+main = "src/index.js"
+compatibility_date = "2026-10-10"
+
+[vars]
+APP_ORIGIN = "https://45p9f657cn-dot.github.io"
+VAPID_SUBJECT = "https://45p9f657cn-dot.github.io/mackary-finance/"
+
+[triggers]
+crons = ["0 6 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mackary-finance-push"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
