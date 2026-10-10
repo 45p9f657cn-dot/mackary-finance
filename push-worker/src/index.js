@@ -63,9 +63,9 @@ function cleanPlan(value) {
   return plan;
 }
 
-async function sendPush(subscription, title, body, env) {
+async function sendPush(subscription, title, body, env, tag = 'mackary-finance-reminder') {
   const message = {
-    data: JSON.stringify({ title, body, url: '/mackary-finance/' }),
+    data: JSON.stringify({ title, body, tag, url: '/mackary-finance/' }),
     options: { ttl: 86400 },
   };
   const payload = await buildPushPayload(message, subscription, {
@@ -119,7 +119,7 @@ async function handleRequest(request, env) {
     const tokenHash = await hashToken(token);
     const row = await env.DB.prepare('SELECT subscription_json FROM devices WHERE token_hash = ?').bind(tokenHash).first();
     if (!row) return response(request, env, { error: 'Enable phone reminders first.' }, 404);
-    const result = await sendPush(JSON.parse(row.subscription_json), 'MACKARY FINANCE', 'Phone reminders are ready.', env);
+    const result = await sendPush(JSON.parse(row.subscription_json), 'MACKARY FINANCE', 'Phone reminders are ready.', env, 'mackary-finance-test');
     if (result.status === 404 || result.status === 410) {
       await env.DB.prepare('DELETE FROM sent_reminders WHERE token_hash = ?').bind(tokenHash).run();
       await env.DB.prepare('DELETE FROM devices WHERE token_hash = ?').bind(tokenHash).run();
@@ -153,7 +153,7 @@ async function sendDueReminders(env) {
         .bind(device.token_hash, reminder.id, today).first();
       if (alreadySent) continue;
       try {
-        const result = await sendPush(subscription, reminder.title, reminder.body, env);
+        const result = await sendPush(subscription, reminder.title, reminder.body, env, reminder.id);
         if (result.status === 404 || result.status === 410) {
           await env.DB.prepare('DELETE FROM sent_reminders WHERE token_hash = ?').bind(device.token_hash).run();
           await env.DB.prepare('DELETE FROM devices WHERE token_hash = ?').bind(device.token_hash).run();
